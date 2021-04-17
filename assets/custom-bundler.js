@@ -1,69 +1,139 @@
 function ready(callbackFunc) {
-    if (document.readyState !== 'loading') {
-      // Document is already ready, call the callback directly
-      callbackFunc();
-    } else if (document.addEventListener) {
-      // All modern browsers to register DOMContentLoaded
-      document.addEventListener('DOMContentLoaded', callbackFunc);
-    } else {
-      // Old IE browsers
-      document.attachEvent('onreadystatechange', function() {
-        if (document.readyState === 'complete') {
-          callbackFunc();
-        }
-      });
-    }
+  if (document.readyState !== 'loading') {
+    // Document is already ready, call the callback directly
+    callbackFunc();
+  } else if (document.addEventListener) {
+    // All modern browsers to register DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', callbackFunc);
+  } else {
+    // Old IE browsers
+    document.attachEvent('onreadystatechange', function() {
+      if (document.readyState === 'complete') {
+        callbackFunc();
+      }
+    });
   }
+}
+
+ready(function() {
   
-  ready(function() {
+  let setChoice;
+  let container = document.querySelector(".custom-bundler__pdp");
+  
+  bundlerSelectionsGrid();
     
-    console.log('control cc');
-    let setChoice;
-    let container = document.querySelector(".custom-bundler__pdp");
+    container.addEventListener("click", (ev) => {
+      console.log('click');
       
-      container.addEventListener("click", (ev) => {
-        console.log('click');
+      if (ev.target.classList.contains("choice")) { // click a variant
+        // select options
+        let type = ev.target.dataset.choice_type;
+        let choice = ev.target.dataset.choice;
+        let variants = ev.target.closest('.variants');    
         
-        if (ev.target.classList.contains("choice")) { // click a variant
-          // select options
-          let type = ev.target.dataset.choice_type;
-          let choice = ev.target.dataset.choice;
-          let variants = ev.target.closest('.variants');    
-  
-          let links = variants.querySelectorAll(".choice." + type);
-          [...links].forEach((x) => x.classList.remove("active"));        
-          ev.target.classList.add("active");
-          
-          //get options
-          let size = variants.querySelector(".choice.Size.active").innerHTML;
-          let color = variants.querySelector(".choice.Color.active").innerHTML;
-          
-          // console.log('choices =  ' + size + ' - ' + color);
-          
-          //write options
-          let combinedOptions = variants.querySelector('.combined-options');
-          let combinedOptionsTitle = color + ' / ' + size;
-          combinedOptions.dataset.comb_options = combinedOptionsTitle;
-          
-          //select from the variantsId list, the element with the same title value
-          let variantAttrs = variants.querySelector("[data-title='" + combinedOptionsTitle + "']");
-          let variantId = variantAttrs.dataset.value;
-          
-          console.log(variantId);
-          
-          //set selected variantId  
-          let selectedVariantEle = variants.querySelector('.selected-variant-id');
-          selectedVariantEle.dataset.variant_id = variantId;
-          
+        let productId = variants.dataset.product_id;
+
+        let links = variants.querySelectorAll(".choice." + type);
+        [...links].forEach((x) => x.classList.remove("active"));        
+        ev.target.classList.add("active");
+        
+        //get options
+        let size = variants.querySelector(".choice.Size.active").innerHTML;
+        let color = variants.querySelector(".choice.Color.active").innerHTML;
+        
+        // console.log('choices =  ' + size + ' - ' + color);
+        
+        //write options
+        let combinedOptions = variants.querySelector('.combined-options');
+        let combinedOptionsTitle = color + ' / ' + size;
+        combinedOptions.dataset.comb_options = combinedOptionsTitle;
+        
+        //select from the variantsId list, the element with the same title value
+        let variantAttrs = variants.querySelector("[data-title='" + combinedOptionsTitle + "']");
+        let variantId = variantAttrs.dataset.value;
+        let variantImg = variantAttrs.dataset.img;
+        
+        console.log(variantId);
+        
+        //change image if possible
+        
+        if (type == "Color") {
+          let card = ev.target.closest('.custom-bundler__pdp__item').querySelector(".card__img"); 
+          card.innerHTML = '<img src="' + variantImg + '" >';
         }
+    
         
-   
-  
+        // set selected variantId  
+        let selectedVariantEle = variants.querySelector('.selected-variant-id');
+        selectedVariantEle.dataset.variant_id = variantId;
         
-      });
-    
-    
-    
-    
-  });
+        // set "your selections fileds"
+        let yourSelections = document.querySelector('.product-id-' + productId);
+        yourSelections.innerHTML = variantId;       
+        
+        bundlerSelectionsGrid();
+      } // end if click on variant
+      
+       if (ev.target.classList.contains("add-to-cart")) { // click add to cart
+         
+         // create json         
+         let items = [], data = [];
+         let variantIds = container.querySelectorAll("[data-variant_id]");
+         [...variantIds].forEach((ele) => {
+           data = {
+              "id": ele.dataset.variant_id,
+              "quantity": 1
+           };
+           
+           items.push(data)
+           addItemToCart(items);
+          
+         });  // end if.. add to cart   
+          
+           
+           console.log('res ', items);
+                        
+         
+         // add to cart
+         function addItemToCart(items) {
+ 
+          jQuery.ajax({
+            type: 'POST',
+            url: '/cart/add.js',
+            data: { items: items },
+            dataType: 'json',
+            success: function() { 
+                setTimeout(function() {
+                	window.location = '/cart';
+              	}, 500)
+            }
+          });
+         }
+         
+         
+         // check minicart behavior...
+                  
+       } // end click add to cart
+      
+      
+    }); // end click listener
   
+  function bundlerSelectionsGrid() { 
+  
+    //read all elements "custom-bundler__pdp__your-selection"
+    let bundlerSelections = document.querySelectorAll('.custom-bundler__pdp__items .custom-bundler__pdp__your-selection');
+    
+    
+    //populate the bundlerSelectionsGrid
+    let bundlerSelectionsText = '';
+    [...bundlerSelections].forEach((e) => {     
+      bundlerSelectionsText = bundlerSelectionsText.concat(e.outerHTML);                              
+    });
+    
+    let res = document.querySelector('.all-selections');
+     res.innerHTML = '';
+    res.innerHTML = bundlerSelectionsText;
+  
+  }
+    
+}); // end ready function
