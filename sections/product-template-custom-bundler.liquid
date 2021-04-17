@@ -1,10 +1,12 @@
+{{ 'custom-bundler.css' | asset_url | stylesheet_tag }}
 
-<div class = "container">
+<div class = "container .custom-bundler__pdp">
 
-  TITLE > {{product.title}}<br>
+  <div class = ".custom-bundler__pdp__heading">
+  	<div class = "title"> {{product.title}}</div>
+    <div class = "price"> {{product.price | money }}</div>
+  </div>
 
-
-  PRODUCTS <br>
 
   {%comment%}Call each product{%endcomment%}
   {%for _product in product.metafields.bundler %}

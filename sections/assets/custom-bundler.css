@@ -1,27 +1,32 @@
-.custom-bundler__pdp__product{
+.custom-bundler__pdp__item{
     background-color: #ff00003d;
 	display: inline-flex;
   	width: 321px;
     border: 1px solid blue;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     margin: 20px 20px 0 0;
 }
 
-.custom-bundler__pdp__product .card{
+.custom-bundler__pdp__item .card{
 	text-align: center;
     margin: auto;
 }
 
-.custom-bundler__pdp__product .card .title{
+.custom-bundler__pdp__item .card .title{
 	height: 50px;
 }
 
-.custom-bundler__pdp__product .card .title h2{
+.custom-bundler__pdp__item .card .title h2{
 	font-size: 13px;
 }
 
-.custom-bundler__pdp__product .card img{
+.custom-bundler__pdp__item .card img{
   object-fit: contain;
     width: 284px;
 }
+
+.custom-bundler__pdp__item .variants{
+	margin: auto;
+}
+
 
