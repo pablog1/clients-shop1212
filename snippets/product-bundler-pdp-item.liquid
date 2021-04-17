@@ -1,5 +1,4 @@
-
-<div class = "custom-bundler__pdp__product">
+<div class = "custom-bundler__pdp__item">
   
     <figure class="card">
       <figcaption class = "title" ><h2>Add a {{product.title}}</h2></figcaption>
@@ -11,4 +10,45 @@
   
     </figure>
     
+    <div class = "variants">
+      {% for option in product.options %}
+      
+          {%capture item_option%}
+            <label for="SingleOptionSelector-{{forloop.index0}}" data-option = "{{option}}">{{ option }} </label>
+            <div id="SingleOptionSelector-{{forloop.index0}}" class="single-option-selector single-option-selector-product-template product-form__input" data-index="option{{forloop.index}}" name="id">
+              {% capture option_index %}option{{ forloop.index }}{% endcapture %} 
+              {% assign option_values = product.variants | map: option_index | uniq %}
+              {% for choice in option_values %}
+              <span class = "choice {{option}} {%if forloop.index == 1%}active{%endif%}" data-choice = "{{choice}}" data-choice_type = "{{option}}">{{choice}}</span><span> - </span>
+                  {%assign variants_count = forloop.index%}
+                  {%if forloop.index == 1 and option == "Color"%}
+                      {%assign first_choice_color = choice%}
+                  {%elsif forloop.index == 1 and option == "Size"%}
+                      {%assign first_choice_size = choice%}
+                  {%endif%}
+              {% endfor %}
+            </div>
+             {%endcapture%}
+      
+          {%if option == "Color"%}
+              {{item_option}}
+          {%elsif option == "Size" and variants_count > 1%}
+              {{item_option}}
+          {%elsif option == "Size" and variants_count == 1%}
+              <div style = "display:none">
+                  {{item_option}}
+              </div>
+          {%endif%}
+      {% endfor %}
+      
+      <div class = "combined-options" data-comb_options = "{{first_choice_color}} / {{first_choice_size}}" ></div>
+      
+      <select id="ProductSelect-product-template" class="product-form__variants no-js" name="id" data-productid="{{product.id}}">
+        {% for option in product.variants %}
+        <option value="{{option.id}}"> {{option.title}}</option>
+        {% endfor %}
+      </select>
+  
+    </div>
   </div>
+  

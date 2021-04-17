@@ -1,6 +1,13 @@
+.custom-bundler__pdp__items {
+    background-color: antiquewhite;
+    padding: 25px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+
 .custom-bundler__pdp__item{
     background-color: #ff00003d;
-	display: inline-flex;
   	width: 321px;
     border: 1px solid blue;
     flex-wrap: wrap;
@@ -21,12 +28,22 @@
 }
 
 .custom-bundler__pdp__item .card img{
-  object-fit: contain;
+  	object-fit: contain;
     width: 284px;
 }
 
 .custom-bundler__pdp__item .variants{
 	margin: auto;
 }
+
+.custom-bundler__pdp__item .variants .active{
+	color: red;
+}
+
+.custom-bundler__pdp .add-to-cart {
+    display: flex;
+    margin: 60px auto;
+}
+
 
 
