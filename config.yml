@@ -1,0 +1,7 @@
+ignore_files:
+- config/settings_data.json
+
+development:
+  password: shppa_exxxxx
+  theme_id: "xxxxx"
+  store: fffff
