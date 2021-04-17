@@ -43,11 +43,17 @@
       
       <div class = "combined-options" data-comb_options = "{{first_choice_color}} / {{first_choice_size}}" ></div>
       
-      <select id="ProductSelect-product-template" class="product-form__variants no-js" name="id" data-productid="{{product.id}}">
+      <div class = "all-variants" data-productid="{{product.id}}">
         {% for option in product.variants %}
-        <option value="{{option.id}}"> {{option.title}}</option>
+            <div data-value="{{option.id}}" data-title="{{option.title}}"> </div>
+            {%if forloop.index == 1%}
+                {%assign default_variant_id = option.id %}
+            {%endif%}
         {% endfor %}
-      </select>
+      </div>
+      
+      <div class = "selected-variant-id" data-variant_id="{{default_variant_id}}">
+      </div>
   
     </div>
   </div>
