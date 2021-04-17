@@ -1,0 +1,27 @@
+.custom-bundler__pdp__product{
+    background-color: #ff00003d;
+	display: inline-flex;
+  	width: 321px;
+    border: 1px solid blue;
+    flex-wrap: nowrap;
+    margin: 20px 20px 0 0;
+}
+
+.custom-bundler__pdp__product .card{
+	text-align: center;
+    margin: auto;
+}
+
+.custom-bundler__pdp__product .card .title{
+	height: 50px;
+}
+
+.custom-bundler__pdp__product .card .title h2{
+	font-size: 13px;
+}
+
+.custom-bundler__pdp__product .card img{
+  object-fit: contain;
+    width: 284px;
+}
+

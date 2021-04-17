@@ -1,1 +1,14 @@
-{{product.title}}<br>
+
+<div class = "custom-bundler__pdp__product">
+  
+    <figure class="card">
+      <figcaption class = "title" ><h2>Add a {{product.title}}</h2></figcaption>
+  
+        <picture class="card__img">
+            <source media="(min-width:465px)" srcset="{{ product.featured_image | img_url: 'x650'}}">
+            <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" >        
+        </picture>
+  
+    </figure>
+    
+  </div>
