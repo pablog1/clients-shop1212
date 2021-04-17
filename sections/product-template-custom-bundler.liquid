@@ -1,4 +1,13 @@
-TEST TEST
+TITLE > {{product.title}}<br>
+
+
+PRODUCTS <br>
+
+{%comment%}Call each product{%endcomment%}
+{%for _product in product.metafields.bundler %}
+	{%render 'product-bundler-pdp-item', product: all_products[_product[1]]%}
+{%endfor%}
+
 
 {% schema %}
   {
