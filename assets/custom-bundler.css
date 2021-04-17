@@ -1,3 +1,9 @@
+
+/*##################
+# Product Pages ##
+##################
+*/
+
 .custom-bundler__pdp__items {
     background-color: antiquewhite;
     padding: 25px 0px;
@@ -72,4 +78,25 @@
 .custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection {
 	background-color: yellow;
   	margin-right: 20px;
+}
+
+/*################
+# Collections ##
+################
+*/
+.custom-bundler-grid {
+    background-color: beige;
+    padding: 10px;
+  	display: flex;
+  	flex-wrap: wrap;
+}
+
+.custom-bundler-grid__product_item {
+	width: 368px;
+    display: flex;
+    background-color: azure;
+    height: 300px;
+    padding: 10px;
+  	margin: 10px;
+
 }
