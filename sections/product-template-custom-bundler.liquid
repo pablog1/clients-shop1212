@@ -1,6 +1,7 @@
 {{ 'custom-bundler.css' | asset_url | stylesheet_tag }}
+{{ 'custom-bundler.js' | asset_url | script_tag }}
 
-<div class = "container .custom-bundler__pdp">
+<div class = "container custom-bundler__pdp">
 
   <div class = ".custom-bundler__pdp__heading">
   	<div class = "title"> {{product.title}}</div>
@@ -9,9 +10,19 @@
 
 
   {%comment%}Call each product{%endcomment%}
-  {%for _product in product.metafields.bundler %}
-      {%render 'product-bundler-pdp-item', product: all_products[_product[1]]%}
-  {%endfor%}
+   <div class = "custom-bundler__pdp__items">
+    {%for _product in product.metafields.bundler %}
+        {%render 'product-bundler-pdp-item', product: all_products[_product[1]]%}
+    {%endfor%}
+  </div>
+  
+  <div class = "all-selections"></div>
+  
+  <button class = "add-to-cart">
+  	Add Bundle to Cart
+  </button>
+  
+
 
 </div>
 
@@ -21,3 +32,4 @@
     "settings": []
   }
 {% endschema %}
+
