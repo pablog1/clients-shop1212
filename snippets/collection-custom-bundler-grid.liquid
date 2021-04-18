@@ -1,0 +1,53 @@
+{%comment%}
+    - select products by product type
+    - filter by tag...
+
+    - create a grid
+
+    https://shop1212.com/collections/custom-bundle-products
+{%endcomment%}
+
+{{ 'custom-bundler.css' | asset_url | stylesheet_tag }}
+    {{ 'custom-bundler.js' | asset_url | script_tag }}
+
+
+    {% assign collection_handle = 'custom-bundle-products' %}
+    <div class = "custom-bundler-grid">
+        {% for product in collections[collection_handle].products %}
+       		<div class = "custom-bundler-grid__product_item">
+               <div class = "custom-bundler-grid__product_img">
+                 <img src="{{ product.featured_image | img_url: 'x400'}}" alt = "{{product.title}}"/>
+              </div>
+              <div class = "custom-bundler-grid__product__info">
+              	<div class = "custom-bundler-grid__product__info__title">
+                	{{product.title}}
+                </div>
+                <div class = "custom-bundler-grid__product__info__price">
+                	{{product.price | money}}
+                </div>
+                
+              </div>
+              <div class = "custom-bundler-grid__product__what-includes">
+                <div class = "custom-bundler-grid__product__what-includes__title">
+                  WHAT IT INCLUDES:
+                </div> 
+                <div class = "custom-bundler-grid__product__what-includes__grid">
+                  {% for option in product.variants %}
+                    <div class = "custom-bundler-grid__product__what-includes__grid__item">
+                          <div class = "custom-bundler-grid__product__what-includes__grid__item__img">
+                            <img src="{{option.image.src | img_url: '90x90'}}" alt = "{{option.title}}"/>
+                          </div>
+                          <div class = "custom-bundler-grid__product__what-includes__grid__item__title">
+                            {{option.title}}
+                          </div>
+                    </div>
+                  {% endfor %}  
+                </div>
+              </div>
+              <div class = "custom-bundler-grid__product__customize">
+                <button><a href = "{{product.url}}">Customize your bundle</a></button>
+              </div>
+      		</div>
+        {% endfor %}
+    </div>
+  
