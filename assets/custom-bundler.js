@@ -26,6 +26,8 @@ ready(function() {
       console.log('click');
       
       if (ev.target.classList.contains("choice")) { // click a variant
+        
+        console.log('click variant');
         // select options
         let type = ev.target.dataset.choice_type;
         let choice = ev.target.dataset.choice;
@@ -38,8 +40,8 @@ ready(function() {
         ev.target.classList.add("active");
         
         //get options
-        let size = variants.querySelector(".choice.Size.active").innerHTML;
-        let color = variants.querySelector(".choice.Color.active").innerHTML;
+        let size = variants.querySelector(".choice.Size.active").dataset.choice;
+        let color = variants.querySelector(".choice.Color.active").dataset.choice;
         
         // console.log('choices =  ' + size + ' - ' + color);
         
@@ -48,7 +50,7 @@ ready(function() {
         let combinedOptionsTitle = color + ' / ' + size;
         combinedOptions.dataset.comb_options = combinedOptionsTitle;
         
-        //select from the variantsId list, the element with the same title value
+        //get from the variantsId list, the element with the same title value
         let variantAttrs = variants.querySelector("[data-title='" + combinedOptionsTitle + "']");
         let variantId = variantAttrs.dataset.value;
         let variantImg = variantAttrs.dataset.img;
@@ -69,7 +71,7 @@ ready(function() {
         
         // set "your selections fileds"
         let yourSelections = document.querySelector('.product-id-' + productId);
-        yourSelections.innerHTML = variantId;       
+        yourSelections.innerHTML =  "<picture class='card__img'><img src='" + variantImg + "'/></picture>";
         
         bundlerSelectionsGrid();
       } // end if click on variant
@@ -117,6 +119,27 @@ ready(function() {
       
       
     }); // end click listener
+  
+  
+  	// if it's a PDP, replace colors for images
+  	if(container){
+    	//for each
+      	let imagePlaceHolder = [];
+        imagePlaceHolder = container.querySelectorAll(".choice.Color.image");
+         [...imagePlaceHolder].forEach((ele) => {
+           //search on all-variants
+            let allVariants= [];
+           	allVariants = container.querySelectorAll(".all-variants [data-value]");
+            [...allVariants].forEach((e) => {
+              if(e.dataset.title.includes(ele.dataset.choice + ' /')){                
+                ele.innerHTML = "<img src='" + e.dataset.img + "' />";
+                 }
+            });
+           
+         });
+     }
+  	
+  
   
   function bundlerSelectionsGrid() { 
   

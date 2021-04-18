@@ -5,7 +5,7 @@
 */
 
 .custom-bundler__pdp__items {
-    background-color: antiquewhite;
+    background-color: #fff9f1;
     padding: 25px 0px;
     display: flex;
     justify-content: center;
@@ -14,25 +14,19 @@
 
 
 .custom-bundler__pdp__item {
-    background-color: yellow;
   	width: 321px;
     flex-wrap: wrap;
-    margin: 20px 20px 0 0;
+    margin: 0 20px 0 0;
 }
 
 .custom-bundler__pdp__product-card {
-    background-color: #ff00003d;
-  	width: 321px;
-  	height: 680px;
-    border: 1px solid blue;
+    background-color: #eeeeee;
+    width: 321px;
+    height: 680px;
+    border: 1px solid #464646;
     flex-wrap: wrap;
     margin: 20px 20px 0 0;
-}
-
-.custom-bundler__pdp__your-selection { 
-    background-color: #6633996e;
-    margin-top: 23px;
-    height: 89px;
+    border-radius: 19px;
 }
 
 .custom-bundler__pdp__item .card{
@@ -59,6 +53,56 @@
 	margin: auto;
 }
 
+.custom-bundler__pdp__item .variants .option-label{
+    margin: 10px 0 3px 0;
+    text-align: center;
+}
+
+
+.custom-bundler__pdp__item .variants .optionSelector{
+    display: flex;
+    padding: 7px;
+    flex-wrap: wrap;
+    place-content: center;
+}
+
+.custom-bundler__pdp__item .variants .optionSelector .option-group{
+	margin: 3px
+}
+
+.custom-bundler__pdp__item .variants .choice.Color {
+    height: 45px;
+    width: 45px;
+    margin: 0 5px 5px 0;
+    z-index: 1;
+    position: relative;
+}
+
+.custom-bundler__pdp__item .variants .choice.Color.image {
+    z-index: 0;
+    position: absolute;
+  	margin-top: -46px
+}
+
+.custom-bundler__pdp__item .variants .choice.Color img{
+	height: 45px;
+  	width: 45px;
+}
+
+.custom-bundler__pdp__item .variants .choice.Size{
+	font-size: 13px;
+    line-height: 1;
+    background-color: white;
+    border: 1px solid black;
+    margin: 3px;
+    padding: 8px;
+    white-space: pre;
+}
+
+.custom-bundler__pdp__item .variants .choice {
+	cursor: pointer;
+}
+
 .custom-bundler__pdp__item .variants .active{
 	color: red;
 }
@@ -66,19 +110,32 @@
 .custom-bundler__pdp .add-to-cart {
     display: flex;
     margin: 60px auto;
+  	padding: 29px;
+    font-size: 18px;
+    border-radius: 39px;
+    outline: none;
+    border: 1px solid gray;
 }
 
 
 .custom-bundler__pdp .all-selections {
-	background-color: grey;
-  	display: flex;
-  	margin-top: 30px;
+	background-color: #d9d9d9;
+    display: flex;
+    margin-top: 19px;
+    padding: 22px;
+  	place-content: center;
 }
 
 .custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection {
 	background-color: yellow;
   	margin-right: 20px;
+  	height: 280px;
 }
+
+.custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection img {
+  height: 280px
+}
+
 
 /*################
 # Collections ##
