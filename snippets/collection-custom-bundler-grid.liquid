@@ -32,6 +32,20 @@
                   WHAT IT INCLUDES:
                 </div> 
                 <div class = "custom-bundler-grid__product__what-includes__grid">
+                  
+                  {%for sub_product in product.metafields.bundler %}
+					{%assign item = all_products[sub_product[1]]%}
+                    	<div class = "custom-bundler-grid__product__what-includes__grid__item">
+                            <div class = "custom-bundler-grid__product__what-includes__grid__item__img">
+                                <img src="{{item.featured_image | img_url: '90x90'}}" alt = "{{item.title}}"/>
+                            </div>
+                            <div class = "custom-bundler-grid__product__what-includes__grid__item__title">
+                                One {{item.type}}
+                            </div>
+                    	</div>   
+                  {%endfor%}
+                         
+                  {%comment%}
                   {% for option in product.variants %}
                     <div class = "custom-bundler-grid__product__what-includes__grid__item">
                           <div class = "custom-bundler-grid__product__what-includes__grid__item__img">
@@ -42,6 +56,8 @@
                           </div>
                     </div>
                   {% endfor %}  
+                  {%endcomment%}
+                  
                 </div>
               </div>
               <div class = "custom-bundler-grid__product__customize">
