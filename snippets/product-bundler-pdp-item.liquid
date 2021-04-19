@@ -55,7 +55,7 @@
   
         <div class = "all-variants" data-productid="{{product.id}}">
           {% for option in product.variants %}
-            <div data-value="{{option.id}}" data-title="{{option.title}}" data-img="{{option.image.src | img_url: 'x600'}}"> </div>
+              <div data-value="{{option.id}}" data-title="{{option.title}}" data-img="{{option.image.src | img_url: 'x600'}}" data-quantity="{{option.inventory_quantity}}"> </div>
             {%if forloop.index == 1%}
                 {%assign default_variant_id = option.id %}
             {%endif%}
@@ -75,4 +75,5 @@
       </div>
     </div>
   </div>
-    
+  
+  

@@ -20,13 +20,12 @@
 }
 
 .custom-bundler__pdp__product-card {
-    background-color: #eeeeee;
+	background-color: #eeeeee;
     width: 321px;
-    height: 680px;
+    height: 718px;
     border: 1px solid #464646;
     flex-wrap: wrap;
-    margin: 20px 20px 0 0;
-    border-radius: 19px;
+    margin: 39px 20px 0 0;
 }
 
 .custom-bundler__pdp__item .card{
@@ -46,7 +45,6 @@
     object-fit: contain;
     width: 284px;
     height: 360px;
-    background-color: aliceblue;
 }
 
 .custom-bundler__pdp__item .variants{
@@ -81,7 +79,7 @@
 .custom-bundler__pdp__item .variants .choice.Color.image {
     z-index: 0;
     position: absolute;
-  	margin-top: -46px
+  	margin-top: -50px
 }
 
 .custom-bundler__pdp__item .variants .choice.Color img{
@@ -93,7 +91,7 @@
 	font-size: 13px;
     line-height: 1;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid white;
     margin: 3px;
     padding: 8px;
     white-space: pre;
@@ -104,8 +102,14 @@
 }
 
 .custom-bundler__pdp__item .variants .active{
-	color: red;
+	font-weight: 500;
+  	border: 2px solid black !important;
 }
+
+.custom-bundler__pdp__item .variants .not-available{
+	opacity: 0.4;
+}
+
 
 .custom-bundler__pdp .add-to-cart {
     display: flex;
@@ -119,21 +123,23 @@
 
 
 .custom-bundler__pdp .all-selections {
-	background-color: #d9d9d9;
-    display: flex;
+    background-color: #d9d9d9;
+    display: inline-flex;
     margin-top: 19px;
     padding: 22px;
-  	place-content: center;
+    flex-wrap: wrap;
 }
 
 .custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection {
-	background-color: yellow;
-  	margin-right: 20px;
-  	height: 280px;
+    margin: 20px;
+    height: 358px;
+    width: 345px;
 }
 
 .custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection img {
-  height: 280px
+	object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -211,3 +217,4 @@
 .custom-bundler-grid__product__customize button a {
  	color: grey; 
 }
+

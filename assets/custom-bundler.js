@@ -17,7 +17,7 @@ function ready(callbackFunc) {
 
 ready(function() {
   
-  let setChoice;
+  let setChoice, size, combinedOptionsTitle;
   let container = document.querySelector(".custom-bundler__pdp");
   
   bundlerSelectionsGrid();
@@ -28,6 +28,12 @@ ready(function() {
       if (ev.target.classList.contains("choice")) { // click a variant
         
         console.log('click variant');
+        
+        //if choice has "not-available", return
+        if (ev.target.classList.contains("not-available")) {
+         return; 
+        }         
+        
         // select options
         let type = ev.target.dataset.choice_type;
         let choice = ev.target.dataset.choice;
@@ -40,15 +46,24 @@ ready(function() {
         ev.target.classList.add("active");
         
         //get options
-        let size = variants.querySelector(".choice.Size.active").dataset.choice;
+        if(variants.querySelector(".choice.Size.active")) {
+        	size = variants.querySelector(".choice.Size.active").dataset.choice;
+        }
         let color = variants.querySelector(".choice.Color.active").dataset.choice;
         
         // console.log('choices =  ' + size + ' - ' + color);
         
         //write options
         let combinedOptions = variants.querySelector('.combined-options');
-        let combinedOptionsTitle = color + ' / ' + size;
+        if(size) {
+          console.log('size  = |' + size + '|' );
+        	combinedOptionsTitle = color + ' / ' + size;
+        } else {
+        	combinedOptionsTitle = color;
+        }
         combinedOptions.dataset.comb_options = combinedOptionsTitle;
+        
+        // console.log('control = ' + combinedOptionsTitle );
         
         //get from the variantsId list, the element with the same title value
         let variantAttrs = variants.querySelector("[data-title='" + combinedOptionsTitle + "']");
@@ -69,11 +84,14 @@ ready(function() {
         let selectedVariantEle = variants.querySelector('.selected-variant-id');
         selectedVariantEle.dataset.variant_id = variantId;
         
-        // set "your selections fileds"
+        // set "your selections fields"
         let yourSelections = document.querySelector('.product-id-' + productId);
         yourSelections.innerHTML =  "<picture class='card__img'><img src='" + variantImg + "'/></picture>";
         
         bundlerSelectionsGrid();
+        checkAvailability(color, variants);
+        size = '';
+        color = '';
       } // end if click on variant
       
        if (ev.target.classList.contains("add-to-cart")) { // click add to cart
@@ -131,14 +149,116 @@ ready(function() {
             let allVariants= [];
            	allVariants = container.querySelectorAll(".all-variants [data-value]");
             [...allVariants].forEach((e) => {
-              if(e.dataset.title.includes(ele.dataset.choice + ' /')){                
+              if(e.dataset.title.includes(ele.dataset.choice + ' /') || e.dataset.title == ele.dataset.choice){                
                 ele.innerHTML = "<img src='" + e.dataset.img + "' />";
                  }
             });
            
          });
      }
+  
+    // check if color should be unavailable
+  	if(container){
+      let checkColors, colorOk = 0;
+      
+      let allVariants = container.querySelectorAll('.variants');
+       [...allVariants].forEach((variantEle) => {
+        colorOk = 0;
+         
+       	checkColors = variantEle.querySelectorAll(".choice.Color");
+        [...checkColors].forEach((ele) => {
+            let elements = [];
+           	elements = variantEle.querySelectorAll(".all-variants [data-value]");
+            [...elements].forEach((e) => {
+              // console.log('aaaaa ' + e.dataset.title + ' --- ' + ele.dataset.choice + 'quant ' + e.dataset.quantity);
+              if((e.dataset.title.includes(ele.dataset.choice + ' /') || e.dataset.title == ele.dataset.choice) && e.dataset.quantity > 0){                
+                colorOk = 1;
+                // console.log('bbbbbb ' + e.dataset.title + ' --- ' + ele.dataset.choice + ' quant ' + e.dataset.quantity);
+              }
+            });
+          if(colorOk == 0) {
+            // console.log('colorOk??');
+          	ele.classList.add("not-available"); 
+            ele.style = 'cursor:default';
+          }
+          colorOk = 0;
+        });     
+       }); // end foreach allVariants
+     } // end if
+  
+  
+  	// check if the sizes for the first color are available
+    if(container){
+      let checkColors, colorOk = 0, firstColor;
+      
+      let allVariants = container.querySelectorAll('.variants');
+       [...allVariants].forEach((variantEle) => {
+        colorOk = 0;
+         
+        // get first color
+        firstColor = variantEle.querySelector(".choice.Color");
+        
+        if(firstColor) {
+           console.log('first color = ' + firstColor.dataset.choice); 
+           checkAvailability(firstColor.dataset.choice, variantEle)
+        }
+        
+         
+       });
+        /* 
+       	checkColors = variantEle.querySelectorAll(".choice.Color");
+        [...checkColors].forEach((ele) => {
+            let elements = [];
+           	elements = variantEle.querySelectorAll(".all-variants [data-value]");
+            [...elements].forEach((e) => {
+              // console.log('aaaaa ' + e.dataset.title + ' --- ' + ele.dataset.choice + 'quant ' + e.dataset.quantity);
+              if((e.dataset.title.includes(ele.dataset.choice + ' /') || e.dataset.title == ele.dataset.choice) && e.dataset.quantity > 0){                
+                colorOk = 1;
+                // console.log('bbbbbb ' + e.dataset.title + ' --- ' + ele.dataset.choice + ' quant ' + e.dataset.quantity);
+              }
+            });
+          if(colorOk == 0) {
+            // console.log('colorOk??');
+          	ele.classList.add("not-available"); 
+            ele.style = 'cursor:default';
+          }
+          colorOk = 0;
+        });     
+       }); // end foreach allVariants
+      
+      */
+     } // end if
+  
+  
   	
+  	
+  
+  function checkAvailability(color, variants) {
+    console.log('control check, color = ' + color);
+    //check all sizes from the selected color
+    let sizes = [], colors = [], links;
+    let compareColor = color + ' /';
+    
+    //if sizes, set a "out of stock" class for the unavailable sizes, 
+    links = variants.querySelectorAll(".choice.Size");
+    if(links) {
+      [...links].forEach((x) => {
+        x.classList.remove("not-available");                                
+      });
+
+      sizes = variants.querySelectorAll(".all-variants [data-value]");
+      [...sizes].forEach((e) => {
+        if(e.dataset.title.includes(compareColor) && e.dataset.quantity == '0') {
+          console.log(compareColor + 'zz ', e.dataset.title + ' -- ' + e.dataset.quantity);   
+          [...links].forEach((x) => {
+              if(e.dataset.title.includes(x.dataset.choice)){
+                  x.classList.add("not-available");  
+              }                  
+          });    
+        }
+      });
+    } //end sizes!    
+  } //end function
   
   
   function bundlerSelectionsGrid() { 
