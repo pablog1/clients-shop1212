@@ -56,7 +56,7 @@ ready(function() {
         //write options
         let combinedOptions = variants.querySelector('.combined-options');
         if(size) {
-          console.log('size  = |' + size + '|' );
+          // console.log('size  = |' + size + '|' );
         	combinedOptionsTitle = color + ' / ' + size;
         } else {
         	combinedOptionsTitle = color;
@@ -70,7 +70,7 @@ ready(function() {
         let variantId = variantAttrs.dataset.value;
         let variantImg = variantAttrs.dataset.img;
         
-        console.log(variantId);
+        // console.log(variantId);
         
         //change image if possible
         
@@ -92,6 +92,12 @@ ready(function() {
         checkAvailability(color, variants);
         size = '';
         color = '';
+        
+        //set variant texts
+        variantsTexts(type, variants);
+        
+        
+        
       } // end if click on variant
       
        if (ev.target.classList.contains("add-to-cart")) { // click add to cart
@@ -139,7 +145,7 @@ ready(function() {
     }); // end click listener
   
   
-  	// if it's a PDP, replace colors for images
+  	// Swatches - if it's a PDP, replace colors for images
   	if(container){
     	//for each
       	let imagePlaceHolder = [];
@@ -150,7 +156,7 @@ ready(function() {
            	allVariants = container.querySelectorAll(".all-variants [data-value]");
             [...allVariants].forEach((e) => {
               if(e.dataset.title.includes(ele.dataset.choice + ' /') || e.dataset.title == ele.dataset.choice){                
-                ele.innerHTML = "<img src='" + e.dataset.img + "' />";
+                ele.innerHTML = "<img src='" + e.dataset.swatch_img + "' />";
                  }
             });
            
@@ -199,7 +205,7 @@ ready(function() {
         firstColor = variantEle.querySelector(".choice.Color");
         
         if(firstColor) {
-           console.log('first color = ' + firstColor.dataset.choice); 
+           // console.log('first color = ' + firstColor.dataset.choice); 
            checkAvailability(firstColor.dataset.choice, variantEle)
         }
         
@@ -249,7 +255,7 @@ ready(function() {
       sizes = variants.querySelectorAll(".all-variants [data-value]");
       [...sizes].forEach((e) => {
         if(e.dataset.title.includes(compareColor) && e.dataset.quantity == '0') {
-          console.log(compareColor + 'zz ', e.dataset.title + ' -- ' + e.dataset.quantity);   
+          // console.log(compareColor + 'zz ', e.dataset.title + ' -- ' + e.dataset.quantity);   
           [...links].forEach((x) => {
               if(e.dataset.title.includes(x.dataset.choice)){
                   x.classList.add("not-available");  
@@ -277,6 +283,11 @@ ready(function() {
      res.innerHTML = '';
     res.innerHTML = bundlerSelectionsText;
   
+  }
+  
+  function variantsTexts(variantName, variants) {
+  	let element = variants.querySelector('.choice.' + variantName + '.active');
+    variants.querySelector('.option-label[data-option='+variantName+']').innerHTML = variantName + ': ' + element.dataset.choice;
   }
     
 }); // end ready function

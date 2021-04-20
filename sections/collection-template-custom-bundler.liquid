@@ -101,7 +101,25 @@
       
       
  	  {%comment%} Call the Bundler Products Grid{%endcomment%}
-      {%render 'collections-custom-bundler-grid', collection_handle: collection_handle%}
+      
+      {%if section.settings.enable_custom_bundler%}
+        {%render 'collection-custom-bundler-grid', 
+          collection_handle: collection_handle, 
+      	  custom_grid_background_color: section.settings.custom_grid_background_color,	
+      	  img_height: section.settings.img_height,
+      	  products_height: section.settings.products_height,
+          saving_background_color: section.settings.saving_background_color,
+          saving_border_radius: section.settings.saving_border_radius,
+          saving_border_color: section.settings.saving_border_color,
+          saving_font_size: section.settings.saving_font_size,
+          saving_font_color: section.settings.saving_font_color,    
+          cta_background_color: section.settings.cta_background_color,
+          cta_border_radius: section.settings.cta_border_radius,
+          cta_border_color: section.settings.cta_border_color,
+          cta_font_size: section.settings.cta_font_size,
+          cta_font_color: section.settings.cta_font_color
+        %}
+      {%endif%}
       
       {% if section.settings.display_collection_title and section.settings.featured_collection_image == false %}
         <div class="eight columns">
@@ -202,6 +220,10 @@
   "name": "Collection",
   "class": "collection-template-section",
   "settings": [
+  	{
+  	  "type": "header",
+  	  "content": "Bundler Settings"  
+  	},
     {
       "type": "checkbox",
       "id": "enable_custom_bundler",
@@ -209,10 +231,117 @@
       "default": true
     },
     {
-      "type": "text",
-      "id": "custom_bundler_tag",
-      "label": "Choose a tag (optional)"
+      "type": "color",
+      "id": "custom_grid_background_color",
+      "label": "Main Container: Choose a Backgound Color",
+  	  "default": "#eeeeee"
     },
+    {
+      "type": "range",
+      "id": "img_height",
+      "label": "Image height (0 = auto)",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "default": 330
+    },
+    {
+      "type": "range",
+      "id": "products_height",
+      "label": "Products container height (0 = auto)",
+      "min": 0,
+      "max": 700,
+      "step": 7,
+      "default": 406
+    },  
+   	{
+  	  "type": "header",
+  	  "content": "Bundler Settings - Save Badge"  
+  	},
+    {
+      "type": "color",
+      "id": "saving_background_color",
+      "label": "Save Badge: Choose a Backgound Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "saving_border_radius",
+      "label": "Save Badge: Border Radius",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "saving_border_color",
+      "label": "Save Badge: Choose a Border Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "saving_font_size",
+      "label": "Save Badge: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "saving_font_color",
+      "label": "Save Badge: Choose a Font Color",
+  	  "default": "#000000"
+    },
+  
+    {
+  	  "type": "header",
+  	  "content": "Bundler Settings - CTA Button"  
+  	},
+    {
+      "type": "color",
+      "id": "cta_background_color",
+      "label": "CTA Button: Choose a Backgound Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "cta_border_radius",
+      "label": "CTA: Border Radius",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "cta_border_color",
+      "label": "CTA Button: Choose a Border Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "cta_font_size",
+      "label": "CTA Button: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "cta_font_color",
+      "label": "CTA Button: Choose a Font Color",
+  	  "default": "#000000"
+    },
+  
+  
+  
+    {
+  	  "type": "header",
+  	  "content": "Collection Settings"  
+  	},
     {
       "type": "checkbox",
       "id": "display_collection_title",

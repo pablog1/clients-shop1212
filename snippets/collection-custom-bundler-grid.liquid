@@ -12,11 +12,35 @@
 
 
     {% assign collection_handle = 'custom-bundle-products' %}
-    <div class = "custom-bundler-grid">
+    <div class = "custom-bundler-grid" style = "background-color: {{custom_grid_background_color}}">
         {% for product in collections[collection_handle].products %}
        		<div class = "custom-bundler-grid__product_item">
+              {%assign img_height = section.settings.img_height%}
+              {%if img_height == 0%}
+              	{%assign img_height = 'unset'%}
+              {%else%}{%assign img_height = img_height | append: 'px'%}
+              {%endif%}
+              
                <div class = "custom-bundler-grid__product_img">
-                 <img src="{{ product.featured_image | img_url: 'x400'}}" alt = "{{product.title}}"/>
+              
+                {%assign discount = product.compare_at_price | times : 100 | divided_by : product.price %}
+                {%assign discount = 100 | minus: discount%}
+                {%if discount > 0%}
+              	<div class = "saving_wrapper">
+                  <div class = "saving" style = "
+                   background-color: {{saving_background_color}};
+                   border-radius: {{saving_border_radius}}px;
+                   border-color: {{saving_border_color}};		
+                   font-size: {{saving_font_size}}px;
+                   color: {{saving_font_color}};
+
+                  ">                
+                    SAVE {{discount}} %                
+                  </div>
+              	</div>
+                {%endif%}
+                <img src="{{ product.featured_image | img_url: 'x400'}}" alt = "{{product.title}}" style = "height: {{img_height}}"/>
+
               </div>
               <div class = "custom-bundler-grid__product__info">
               	<div class = "custom-bundler-grid__product__info__title">
@@ -31,7 +55,14 @@
                 <div class = "custom-bundler-grid__product__what-includes__title">
                   WHAT IT INCLUDES:
                 </div> 
-                <div class = "custom-bundler-grid__product__what-includes__grid">
+                
+                  {%assign products_height = section.settings.products_height%}
+                  {%if products_height == 0%}
+                    {%assign products_height = 'unset'%}
+                  {%else%}{%assign products_height = products_height | append: 'px'%}
+                  {%endif%}
+                 <div class = "custom-bundler-grid__product__what-includes__grid" style= "height: {{products_height}}">
+                  
                   
                   {%for sub_product in product.metafields.bundler %}
 					{%assign item = all_products[sub_product[1]]%}
@@ -45,6 +76,7 @@
                     	</div>   
                   {%endfor%}
                          
+                  
                   {%comment%}
                   {% for option in product.variants %}
                     <div class = "custom-bundler-grid__product__what-includes__grid__item">
@@ -58,10 +90,16 @@
                   {% endfor %}  
                   {%endcomment%}
                   
+                  
                 </div>
               </div>
               <div class = "custom-bundler-grid__product__customize">
-                <button><a href = "{{product.url}}">Customize your bundle</a></button>
+                <button style = "
+                   background-color: {{cta_background_color}};
+                   border-radius: {{cta_border_radius}}px;
+                   border-color: {{cta_border_color}};		
+                   font-size: {{cta_font_size}}px;
+                   "><a href = "{{product.url}}" style = "color: {{cta_font_color}};">Customize your bundle</a></button>
               </div>
       		</div>
         {% endfor %}
