@@ -1,79 +1,122 @@
+{%assign height = section.settings.item_card_height%}
+{%if height == 0%}
+{%assign height = 'unset'%}
+{%else%}{%assign height = height | append: 'px'%}
+{%endif%}
+
 <div class = "custom-bundler__pdp__item">
-    <div class = "custom-bundler__pdp__product-card">
-      <figure class="card">
-        <figcaption class = "title" ><h2>Add a {{product.title}}</h2></figcaption>
-  
-          <picture class="card__img">
-              <source media="(min-width:465px)" srcset="{{ product.featured_image | img_url: 'x650'}}">
-              <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" >        
-          </picture>
-  
-      </figure>
-  
-      <div class = "variants" data-product_id = "{{product.id}}">
-        {% for option in product.options %}
-  
-            {%capture item_option%}
-              <label for="SingleOptionSelector-{{forloop.index0}}" class = "option-label" data-option = "{{option}}">{{ option }} </label>
-              <div class="optionSelector" data-index="option{{forloop.index}}">
-                {% capture option_index %}option{{ forloop.index }}{% endcapture %} 
-                {% assign option_values = product.variants | map: option_index | uniq %}
-                {% for choice in option_values %}
-                
-                {%if option == 'Color'%}
-                    <div class = "option-group">
-                        <div class = "choice {{option}} {%if forloop.index == 1%}active{%endif%}" data-choice = "{{choice}}" data-choice_type = "{{option}}"></div>
-                      <div class = "choice {{option}} image" data-choice = "{{choice}}" data-choice_type = "{{option}}"></div>
-                  </div>
-                {%else%}
-                     <div class = "choice {{option}} {%if forloop.index == 1%}active{%endif%}" data-choice = "{{choice}}" data-choice_type = "{{option}}">{{choice}}</div>
-                {%endif%}
-                
-  
-                    {%assign variants_count = forloop.index%}
-                    {%if forloop.index == 1 and option == "Color"%}
-                        {%assign first_choice_color = choice%}
-                    {%elsif forloop.index == 1 and option == "Size"%}
-                        {%assign first_choice_size = choice%}
-                    {%endif%}
-                {% endfor %}
-              </div>
-            {%endcapture%}
-  
-            {%if option == "Color"%}
-                {{item_option}}
-            {%elsif option == "Size" and variants_count > 1%}
-                {{item_option}}
-            {%elsif option == "Size" and variants_count == 1%}
-                <div style = "display:none">
-                    {{item_option}}
-                </div>
-            {%endif%}
-        {% endfor %}
-  
-        <div class = "combined-options" data-comb_options = "{{first_choice_color}} / {{first_choice_size}}" ></div>
-  
-        <div class = "all-variants" data-productid="{{product.id}}">
-          {% for option in product.variants %}
-              <div data-value="{{option.id}}" data-title="{{option.title}}" data-img="{{option.image.src | img_url: 'x600'}}" data-quantity="{{option.inventory_quantity}}"> </div>
-            {%if forloop.index == 1%}
-                {%assign default_variant_id = option.id %}
-            {%endif%}
-          {% endfor %}
-        </div>
-  
-        <div class = "selected-variant-id" data-variant_id="{{default_variant_id}}">
-        </div>
-  
-      </div><!-- variants-->
-    </div>
-    <div style = "display:none">
-      <div class ="custom-bundler__pdp__your-selection product-id-{{product.id}}">
+  <div class = "custom-bundler__pdp__product-card" style = "
+      border: {{section.settings.item_border_weight}}px solid {{section.settings.item_border_color}};
+      border-radius: {{section.settings.item_border_radius}}px;  
+      height: {{height}}
+   ">
+    
+
+
+    <figure class="card">
+      <figcaption class = "title"><h2 style = "
+         font-size: {{section.settings.item_title_font_size}}px;
+         font-weight: {{section.settings.item_title_font_weight}};
+         color: {{section.settings.item_title_font_color}};
+
+       "> {{product.title}}</h2></figcaption>
+
         <picture class="card__img">
-          <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" >        
-        </picture>  
+          {%assign img_height = section.settings.item_img_height%}
+          {%if img_height == 0%}
+          	{%assign img_height = 'unset'%}
+          {%else%}{%assign img_height = img_height | append: 'px'%}
+          {%endif%}
+          
+            <source media="(min-width:465px)" srcset="{{ product.featured_image | img_url: 'x650'}}">
+            <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" style="height: {{img_height}}" >        
+        </picture>
+
+    </figure>
+
+    <div class = "variants" data-product_id = "{{product.id}}">
+      {% for option in product.options %}
+      
+
+
+          {%capture item_option%}
+            {%if option == 'Color'%}
+      			{%assign replace_str = 'XXColor'%}
+    		{%else%}
+      			{%assign replace_str = 'XXSize'%}
+      		{%endif%}
+            <label for="SingleOptionSelector-{{forloop.index0}}" class = "option-label" data-option = "{{option}}">{{replace_str}}</label>
+            <div class="optionSelector" data-index="option{{forloop.index}}">
+              {% capture option_index %}option{{ forloop.index }}{% endcapture %} 
+              {% assign option_values = product.variants | map: option_index | uniq %}
+              {% for choice in option_values %}
+                            
+              {%if option == 'Color'%}
+              	<div class = "option-group">
+              		<div class = "choice {{option}} {%if forloop.index == 1%}active{%endif%}" data-choice = "{{choice}}" data-choice_type = "{{option}}"></div>
+					<div class = "choice {{option}} image" data-choice = "{{choice}}" data-choice_type = "{{option}}"></div>
+                </div>
+              {%else%}
+               	<div class = "choice {{option}} {%if forloop.index == 1%}active{%endif%}" data-choice = "{{choice}}" data-choice_type = "{{option}}">{{choice}}</div>
+              {%endif%}
+              
+
+                  {%assign variants_count = forloop.index%}
+                  {%if forloop.index == 1 and option == "Color"%}
+                      {%assign first_choice_color = choice%}
+                  {%elsif forloop.index == 1 and option == "Size"%}
+                      {%assign first_choice_size = choice%}
+                  {%endif%}
+              {% endfor %}
+              
+            </div>
+          {%endcapture%}
+      
+      	  {%assign color_str = 'Color: ' | append: first_choice_color%} 
+      	  {%assign size_str = 'Size: ' | append: first_choice_size%} 
+
+      
+      	  {%assign item_option = item_option | replace: 'XXColor', color_str%} 
+          {%assign item_option = item_option | replace: 'XXSize', size_str%} 
+
+
+          {%if option == "Color"%}
+              {{item_option}}
+          {%elsif option == "Size" and variants_count > 1%}
+              {{item_option}}
+          {%elsif option == "Size" and variants_count == 1%}
+              <div style = "display:none">
+                  {{item_option}}
+              </div>
+          {%endif%}
+      {% endfor %}
+
+      <div class = "combined-options" data-comb_options = "{{first_choice_color}} / {{first_choice_size}}" ></div>
+
+      <div class = "all-variants" data-productid="{{product.id}}">
+        {% for option in product.variants %}
+        	{%assign swatch_img_arr = option.title | split: '/'%}
+        	{%assign swatch_img = swatch_img_arr[0] | strip | downcase | replace: ' ', '-' | append: '.png'%}
+                
+            <div data-value="{{option.id}}" data-title="{{option.title}}" data-img="{{option.image.src | img_url: 'x600'}}" data-swatch_img = "{{swatch_img | asset_url}}" data-quantity="{{option.inventory_quantity}}"> </div>
+          {%if forloop.index == 1%}
+              {%assign default_variant_id = option.id %}
+          {%endif%}
+        {% endfor %}
       </div>
+
+      <div class = "selected-variant-id" data-variant_id="{{default_variant_id}}">
+      </div>
+
+    </div><!-- variants-->
+  </div>
+    
+  <div style = "display:none">
+    <div class ="custom-bundler__pdp__your-selection product-id-{{product.id}}">
+      <picture class="card__img">
+        <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" >        
+      </picture>  
     </div>
   </div>
-  
-  
+</div>
+
