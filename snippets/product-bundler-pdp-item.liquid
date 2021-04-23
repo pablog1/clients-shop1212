@@ -10,9 +10,7 @@
       border-radius: {{section.settings.item_border_radius}}px;  
       height: {{height}}
    ">
-    
-
-
+        
     <figure class="card">
       <figcaption class = "title"><h2 style = "
          font-size: {{section.settings.item_title_font_size}}px;
@@ -28,7 +26,6 @@
           {%else%}{%assign img_height = img_height | append: 'px'%}
           {%endif%}
           
-            <source media="(min-width:465px)" srcset="{{ product.featured_image | img_url: 'x650'}}">
             <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" style="height: {{img_height}}" >        
         </picture>
 
@@ -119,4 +116,6 @@
     </div>
   </div>
 </div>
+
+
 

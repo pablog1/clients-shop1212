@@ -2,33 +2,476 @@
 {{ 'custom-bundler.js' | asset_url | script_tag }}
 
 <div class = "container custom-bundler__pdp">
+  
+  {%assign discount = product.compare_at_price | times : 100 | divided_by : product.price %}
+    {%assign discount = 100 | minus: discount%}
+    {%if discount > 0%}
+    <div class = "container custom-bundler__pdp__saving_wrapper">
+      <div class = "saving" style = "
+         background-color: {{section.settings.saving_background_color}};
+         border-radius: {{section.settings.saving_border_radius}}px;
+         border-color: {{section.settings.saving_border_color}};		
+         font-size: {{section.settings.saving_font_size}}px;
+         color: {{section.settings.saving_font_color}};
+       ">                
+        SAVE {{discount}} %                
+      </div>
+    </div>
+    {%endif%}
+  
 
-  <div class = ".custom-bundler__pdp__heading">
-  	<div class = "title"> {{product.title}}</div>
-    <div class = "price"> {{product.price | money }}</div>
+  <div class = "custom-bundler__pdp__heading">  
+  	<div class = "title" style = "
+        font-size: {{section.settings.title_font_size}}px;
+        font-weight: {{section.settings.title_font_weight}};
+        color: {{section.settings.title_font_color}};
+    "> {{product.title}}</div>
+    
+       {%if product.description != blank%}
+        <div style = "
+                      font-weight: {{section.settings.desc_font_weight}};
+                      font-size: {{section.settings.desc_font_size}}px;
+                      color: {{section.settings.desc_font_color}};
+                      text-align: center;
+                      width: 100%;
+                      ">  
+          {{product.description}}
+        </div>
+  	  {%endif%}
+    
+    <div class = "price" style = "
+        font-size: {{section.settings.price_font_size}}px;
+        font-weight: {{section.settings.price_font_weight}};
+        color: {{section.settings.price_font_color}};
+    "> {{product.price | money }}</div>
+    
+   
+    
+    <style>
+      
+    	{%if section.settings.add_to_cart_top_show_desktop == false%}
+      		@media only screen and (min-width: 701px) {.add-to-cart.atc-top {display: none}}
+       	{%endif%}
+              
+        {%if section.settings.add_to_cart_top_show_mobile == false%}
+      		@media only screen and (max-width: 700px) {.add-to-cart.atc-top {display: none}}
+       	{%endif%}
+              
+    	{%if section.settings.add_to_cart_bottom_show_desktop == false%}
+      		@media only screen and (min-width: 701px) {.add-to-cart.atc-bottom {display: none}}
+       	{%endif%}
+              
+        {%if section.settings.add_to_cart_bottom_show_mobile == false%}
+      		@media only screen and (max-width: 700px) {.add-to-cart.atc-bottom {display: none}}
+       	{%endif%}   
+      
+        button.add-to-cart:hover {
+    		background-color: {{section.settings.atc_button_hover_background_color}} !important;
+	  	}
+          
+    </style>
+    
+    {%capture atc_button%}
+      <button class = "add-to-cart atc-xxxx" style = "
+                     width: {{section.settings.atc_button_width}}px;
+                     background-color: {{section.settings.atc_button_background_color}};
+                     border-radius: {{section.settings.atc_button_border_radius}}px;
+                     border-color: {{section.settings.atc_button_border_color}};	
+                     font-weight: {{section.settings.atc_button_font_weight}};
+                     font-size: {{section.settings.atc_button_font_size}}px;
+                     color: {{section.settings.atc_button_font_color}};
+                     ">
+      Add Bundle to Cart
+      </button>
+  {%endcapture%}
+  
+  {{atc_button | replace: 'xxxx', 'top'}}
+    
+    
   </div>
 
 
+  
   {%comment%}Call each product{%endcomment%}
-   <div class = "custom-bundler__pdp__items">
+   <div class = "custom-bundler__pdp__items" style = "
+      background-color: {{section.settings.products_background_color}};
+      ">
     {%for _product in product.metafields.bundler %}
         {%render 'product-bundler-pdp-item', product: all_products[_product[1]]%}
     {%endfor%}
   </div>
   
-  <div class = "all-selections"></div>
+  <div>
+    <h2 style = "
+        font-size: {{section.settings.selection_size}}px;
+        font-weight: {{section.settings.selection_font_weight}};
+        color: {{section.settings.selection_font_color}};
+        text-align: center;
+        ">Your Selection</h2>
+  </div>
   
-  <button class = "add-to-cart">
-  	Add Bundle to Cart
-  </button>
+  {{atc_button | replace: 'xxxx', 'middle'}}
+
   
+  
+  <div class = "all-selections" style = "
+      background-color: {{section.settings.selection_background_color}};
+      "></div>
+  
+  {{atc_button | replace: 'xxxx', 'bottom'}}
+
 
 
 </div>
 
 {% schema %}
   {
-    "name": "Section name",
-    "settings": []
+    "name": "Custom Bundler Settings",
+    "settings": [
+    {
+  	  "type": "header",
+  	  "content": "Bundler Product Settings - Save Badge"  
+  	},
+    {
+      "type": "color",
+      "id": "saving_background_color",
+      "label": "Save Badge: Choose a Backgound Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "saving_border_radius",
+      "label": "Save Badge: Border Radius",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "saving_border_color",
+      "label": "Save Badge: Choose a Border Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "range",
+      "id": "saving_font_size",
+      "label": "Save Badge: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "saving_font_color",
+      "label": "Save Badge: Choose a Font Color",
+  	  "default": "#000000"
+    },
+    {
+  	  "type": "header",
+  	  "content": "Bundler Product Settings - Title and Price"  
+  	},
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title: Font Size",
+      "min": 8,
+      "max": 50,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "title_font_weight",
+      "label": "Title: Font Weight",
+      "min": 100,
+      "max": 800,
+      "step": 100,
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "title_font_color",
+      "label": "Title: Choose a Font Color",
+  	  "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "price_font_size",
+      "label": "Price: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "price_font_weight",
+      "label": "Price: Font Weight",
+      "min": 100,
+      "max": 800,
+      "step": 100,
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "price_font_color",
+      "label": "Price: Choose a Font Color",
+  	  "default": "#000000"
+    },
+    {
+  	  "type": "header",
+  	  "content": "Bundler Product Settings - Description"  
+  	},
+    {
+      "type": "range",
+      "id": "desc_font_size",
+      "label": "Description: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "desc_font_weight",
+      "label": "Description: Font Weight",
+      "min": 100,
+      "max": 800,
+      "step": 100,
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "desc_font_color",
+      "label": "Description: Choose a Font Color",
+  	  "default": "#000000"
+    },
+    {
+  	  "type": "header",
+  	  "content": "Bundler Product Settings - Products"  
+  	},
+
+    {
+      "type": "color",
+      "id": "products_background_color",
+      "label": "Products Grid: Choose a Background Color",
+  	  "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "item_title_font_color",
+      "label": "Item Title: Choose a Font Color",
+  	  "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "item_title_font_size",
+      "label": "Item Title: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "item_title_font_weight",
+      "label": "Item Title: Font Weight",
+      "min": 100,
+      "max": 800,
+      "step": 100,
+      "default": 200
+    },
+	{
+      "type": "range",
+      "id": "item_border_radius",
+      "label": "Item: Border Radius",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "item_border_color",
+      "label": "Item: Choose a Border Color",
+  	  "default": "#eeeeee"
+    },
+	{
+      "type": "range",
+      "id": "item_border_weight",
+      "label": "Item: Border Weight",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "item_img_height",
+      "label": "Image height (0 = auto)",
+      "min": 0,
+      "max": 500,
+      "step": 5,
+      "default": 330
+    },
+    {
+      "type": "range",
+      "id": "item_card_height",
+      "label": "Card height (0 = auto)",
+      "min": 0,
+      "max": 1100,
+      "step": 11,
+      "default": 550
+    },
+    {
+      "type": "color",
+      "id": "selection_font_color",
+      "label": "Your Selection: Choose a Font Color",
+  	  "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "selection_font_size",
+      "label": "Your Selection: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "selection_font_weight",
+      "label": "Your Selection: Font Weight",
+      "min": 100,
+      "max": 800,
+      "step": 100,
+      "default": 200
+    },
+    {
+  	  "type": "header",
+  	  "content": "Add to Cart Buttons"  
+  	},
+    
+    {
+       "type": "checkbox",
+       "id": "add_to_cart_top_show_desktop",
+       "label": "Button Top: Show on Desktop",
+       "default": true
+    },
+    {
+       "type": "checkbox",
+       "id": "add_to_cart_top_show_mobile",
+       "label": "Button Top: Show on Mobile",
+       "default": false
+    },
+
+    {
+       "type": "checkbox",
+       "id": "add_to_cart_middle_show_desktop",
+       "label": "Button Middle: Show on Desktop",
+       "default": true
+    },
+    {
+       "type": "checkbox",
+       "id": "add_to_cart_middle_show_mobile",
+       "label": "Button Middle: Show on Mobile",
+       "default": false
+    },
+
+
+
+    {
+       "type": "checkbox",
+       "id": "add_to_cart_bottom_show_desktop",
+       "label": "Button Bottom: Show on Desktop",
+       "default": true
+    },
+    {
+       "type": "checkbox",
+       "id": "add_to_cart_bottom_show_mobile",
+       "label": "Button Bottom: Show on Mobile",
+       "default": false
+    },
+	{
+      "type": "range",
+      "id": "atc_button_width",
+      "label": "Button: Width",
+      "min": 100,
+      "max": 400,
+      "step": 4,
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "atc_button_background_color",
+      "label": "Button: Choose a Background Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "color",
+      "id": "atc_button_hover_background_color",
+      "label": "Button: Choose a Hover Background Color",
+  	  "default": "#eeeeee"
+    },
+    {
+      "type": "color",
+      "id": "atc_button_border_color",
+      "label": "Button: Choose a Border Color",
+  	  "default": "#eeeeee"
+    },
+	{
+      "type": "range",
+      "id": "atc_button_border_radius",
+      "label": "Button: Border Radius",
+      "min": 0,
+      "max": 15,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "atc_button_font_size",
+      "label": "Button: Font Size",
+      "min": 8,
+      "max": 30,
+      "step": 1,
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "atc_button_font_weight",
+      "label": "Button: Font Weight",
+      "min": 100,
+      "max": 800,
+      "step": 100,
+      "default": 200
+    },
+    {
+      "type": "color",
+      "id": "atc_button_font_color",
+      "label": "Button: Choose a Font Color",
+  	  "default": "#000000"
+    },
+
+
+
+
+
+    {
+  	  "type": "header",
+  	  "content": "Bundler Product Settings - Selection"  
+  	},
+    {
+      "type": "color",
+      "id": "selection_background_color",
+      "label": "Selection: Choose a Background Color",
+  	  "default": "#000000"
+    }
+
+
+	]
   }
 {% endschema %}
+

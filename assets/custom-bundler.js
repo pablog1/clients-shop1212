@@ -75,8 +75,8 @@ ready(function() {
         //change image if possible
         
         if (type == "Color") {
-          let card = ev.target.closest('.custom-bundler__pdp__item').querySelector(".card__img"); 
-          card.innerHTML = '<img src="' + variantImg + '" >';
+          let card = ev.target.closest('.custom-bundler__pdp__item').querySelector(".card__img img"); 
+          card.src = variantImg;
         }
     
         

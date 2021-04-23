@@ -12,9 +12,24 @@
 
 
     {% assign collection_handle = 'custom-bundle-products' %}
-    <div class = "custom-bundler-grid" style = "background-color: {{custom_grid_background_color}}">
+    <div class = "custom-bundler-grid" style = "background-color: {{section.settings.custom_grid_background_color}}">
         {% for product in collections[collection_handle].products %}
-       		<div class = "custom-bundler-grid__product_item">
+      		{%capture bundle_product%}
+      
+      
+              {%assign img_height = section.settings.img_height%}
+              {%if img_height == 0%}
+              	{%assign img_height = 'unset'%}
+              {%else%}{%assign img_height = img_height | append: 'px'%}
+              {%endif%}
+      
+       		<div class = "custom-bundler-grid__product_item" style = "
+              border: {{section.settings.item_border_weight}}px solid {{section.settings.item_border_color}};
+              border-radius: {{section.settings.item_border_radius}}px;  
+           ">
+
+              
+              
               {%assign img_height = section.settings.img_height%}
               {%if img_height == 0%}
               	{%assign img_height = 'unset'%}
@@ -28,11 +43,11 @@
                 {%if discount > 0%}
               	<div class = "saving_wrapper">
                   <div class = "saving" style = "
-                   background-color: {{saving_background_color}};
-                   border-radius: {{saving_border_radius}}px;
-                   border-color: {{saving_border_color}};		
-                   font-size: {{saving_font_size}}px;
-                   color: {{saving_font_color}};
+                   background-color: {{section.settings.saving_background_color}};
+                   border-radius: {{section.settings.saving_border_radius}}px;
+                   border-color: {{section.settings.saving_border_color}};		
+                   font-size: {{section.settings.saving_font_size}}px;
+                   color: {{section.settings.saving_font_color}};
 
                   ">                
                     SAVE {{discount}} %                
@@ -43,17 +58,29 @@
 
               </div>
               <div class = "custom-bundler-grid__product__info">
-              	<div class = "custom-bundler-grid__product__info__title">
+              	<div class = "custom-bundler-grid__product__info__title" style = "
+                    font-size: {{section.settings.title_font_size}}px;
+                    font-weight: {{section.settings.title_font_weight}};
+                    color: {{section.settings.title_font_color}};
+                ">
                 	{{product.title}}
                 </div>
-                <div class = "custom-bundler-grid__product__info__price">
+                <div class = "custom-bundler-grid__product__info__price" style = "
+                    font-size: {{section.settings.price_font_size}}px;
+                    font-weight: {{section.settings.price_font_weight}};
+                    color: {{section.settings.price_font_color}};
+                ">
                 	{{product.price | money}}
                 </div>
                 
               </div>
               <div class = "custom-bundler-grid__product__what-includes">
-                <div class = "custom-bundler-grid__product__what-includes__title">
-                  WHAT IT INCLUDES:
+                <div class = "custom-bundler-grid__product__what-includes__title" style = "
+                    font-size: {{section.settings.what_inc_font_size}}px;
+                    font-weight: {{section.settings.what_inc_font_weight}};
+                    color: {{section.settings.what_inc_font_color}};
+                 ">
+                  {{section.settings.what_inc_text}}
                 </div> 
                 
                   {%assign products_height = section.settings.products_height%}
@@ -63,20 +90,27 @@
                   {%endif%}
                  <div class = "custom-bundler-grid__product__what-includes__grid" style= "height: {{products_height}}">
                   
-                  
+                  {%assign show_product = ''%}
                   {%for sub_product in product.metafields.bundler %}
+                   
 					{%assign item = all_products[sub_product[1]]%}
+                   	{%if item.available == false%}
+                   		{%assign show_product = 'no'%}
+                   	{%endif%}
                     	<div class = "custom-bundler-grid__product__what-includes__grid__item">
                             <div class = "custom-bundler-grid__product__what-includes__grid__item__img">
                                 <img src="{{item.featured_image | img_url: '90x90'}}" alt = "{{item.title}}"/>
                             </div>
-                            <div class = "custom-bundler-grid__product__what-includes__grid__item__title">
-                                One {{item.type}}
+                            <div class = "custom-bundler-grid__product__what-includes__grid__item__title" style = "
+                              font-size: {{section.settings.what_inc_item_font_size}}px;
+                              font-weight: {{section.settings.what_inc_item_font_weight}};
+                              color: {{section.settings.what_inc_item_font_color}};
+                           ">
+                               {{section.settings.what_inc_item_pre_text}} {{item.type}}
                             </div>
                     	</div>   
                   {%endfor%}
                          
-                  
                   {%comment%}
                   {% for option in product.variants %}
                     <div class = "custom-bundler-grid__product__what-includes__grid__item">
@@ -95,13 +129,16 @@
               </div>
               <div class = "custom-bundler-grid__product__customize">
                 <button style = "
-                   background-color: {{cta_background_color}};
-                   border-radius: {{cta_border_radius}}px;
-                   border-color: {{cta_border_color}};		
-                   font-size: {{cta_font_size}}px;
-                   "><a href = "{{product.url}}" style = "color: {{cta_font_color}};">Customize your bundle</a></button>
+                   background-color: {{section.settings.cta_background_color}};
+                   border-radius: {{section.settings.cta_border_radius}}px;
+                   border: {{section.settings.cta_border_weight}}px solid {{section.settings.cta_border_color}};
+                   font-size: {{section.settings.cta_font_size}}px;
+                   font-weight: {{section.settings.cta_font_weight}};
+                   "><a href = "{{product.url}}" style = "color: {{section.settings.cta_font_color}};">Customize your bundle</a></button>
               </div>
       		</div>
+      	{%endcapture%}
+      	{%unless show_product == 'no'%}{{bundle_product}}{%endunless%}
         {% endfor %}
     </div>
   
