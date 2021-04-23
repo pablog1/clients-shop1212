@@ -1,41 +1,82 @@
+**********************************
+* CUSTOM PRODUCTS BUNDLER SYSTEM *
+**********************************
+
+============================================================
+MAIN SYSTEM
+
+1 - Make a Special Product Bundle
+
+  - Make a Product
+  - Add the items with the metafields *
+  - choose the product-template >> product.custom-bundler
+  - optional: Choose a product type like: "Custom Bundle Products"
+  - Important: Set the right prices (compared_at and final price)!!
+
+2 - Make More Bundle Products
+  - You can make so much as you wish, it would be good to use product types to group the products into collections later
+
+3  - Use an special collection and add all products on it
+    - This collection (Custom Bundle Products) is important to the script, it will be not visible. 
+    - All bundle products have to be included. You can use the product type (for example: Custom Bundler Products)
+
+4 - Make real collections
+  - Use the collection-template >> collection.custom-bundler
+  - Add products to be schown below the bundle products
+  - Add metafields if you need more than only one collection **
+
+------------------------------------------------------------
+CUSTOMIZER
+
+- To Customize the Collection:
+  Customizer / Navigate to a Custom Bundle collection > Collection
+
+  You can also go to any collection, and then change the url
+  For example here:
+  previewPath=%2Fcollections%2Ftest-collection
+  you can change "test-collection" for the "handle" of your collection.
+
+
+- To Customize the product page:
+  Customizer / Navigate to a Collection and then to a Bundler Product
+  Then, go to "Custom Bundler Settings"
+-------------------------------------------------------------
+METAFIELDS
+
+Metafields for products:
+- namespace: bundler
+- key: product1, product2, product3, etc...
+- value: "hanlde" for each product
+
+Example: for - product example: https://shop1212.com/products/custom-bundle-test-product
+the "handle" is "custom-bundle-test-product"
+
+
+Metafields fot collections
+- there are optional, you can use it if you need to filter bundle products in the collection page
+- If you need to use it:
+
+- namespace: bundler
+- key: tag
+- value: the same tag what you want to use on the bundle product
+
+And, please add this tag to the products what you want to schown
+
+
+
+**************************
+  Example URLS
+
 - product example: https://shop1212.com/products/custom-bundle-test-product
-  product customizer: go to the product..
 
-- All product bundles have to use  the template.suffix: product.custom-bundler, and you can use a "product type"
-  to group the bundle products 
-  (example: Custom Bundle Products)
-
-- We need a collection (not important the name) to group the bundle products. 
-The condition could be the Product type, and the template is:
- > collection.xustom-bundler
- example: Test collection
+- Collection Example:
+Test collection
 https://shop1212.com/collections/test-collection
 Collection customizer example url:
 https://1212getgive.myshopify.com/admin/themes/120236212286/editor?previewPath=%2Fcollections%2Ftest-collection
 
 ====================
-Notes for Pablo
+Notes for the Dev
 
 collection_handle == "custom-bundle-products"
 
-
-=================================
-1 - Make a Special Product Bundle
-
-  - Make a Product
-  - Add the items with the metafields
-  - choose the product-template >> product.custom-bundler
-  - optional: Choose a product type like: "Custom Bundle Products"
-
-2 - Make More Bundle Products
-  - You can make so much as you wish, it would be good to use product types to group the products into collections later
-
-3  - Use an special collection to group the products
-    - This collection (Custom Bundle Products) is only to group the bundle products, it will be not visible. 
-    - Set the desired product type to group all bundles together (for example: Custom Bundler Products)
-
-4 - Make the real collection 
-  - Use the collection-template >> collection.custom-bundler
-  - Add products to be schown below the bundle products
-
-Customize!!
