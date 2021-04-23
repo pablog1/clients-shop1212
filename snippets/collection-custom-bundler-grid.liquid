@@ -10,7 +10,7 @@
 {{ 'custom-bundler.css' | asset_url | stylesheet_tag }}
     {{ 'custom-bundler.js' | asset_url | script_tag }}
 
-
+	{% assign collection_tag = collection.metafields.bundler.tag%}
     {% assign collection_handle = 'custom-bundle-products' %}
     <div class = "custom-bundler-grid" style = "background-color: {{section.settings.custom_grid_background_color}}">
         {% for product in collections[collection_handle].products %}
@@ -129,7 +129,7 @@
               </div>
               <div class = "custom-bundler-grid__product__customize">
                 <style>
-                .custom-bundler-grid__product__customize button:hover{
+                .custom-bundler-grid__product__customize button:hover {
                  	background-color: {{section.settings.cta_hover_background_color}} !important; 
                 }
                   
@@ -144,6 +144,14 @@
               </div>
       		</div>
       	{%endcapture%}
+      
+      
+      	{% if collection_tag != blank%}
+      		{%unless product.tags contains collection_tag%}
+      			{%assign show_product = 'no' %}
+      		{%endunless%}
+      	{%endif%}
+
       	{%unless show_product == 'no'%}{{bundle_product}}{%endunless%}
         {% endfor %}
     </div>
