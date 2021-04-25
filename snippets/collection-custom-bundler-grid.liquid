@@ -28,8 +28,6 @@
               border-radius: {{section.settings.item_border_radius}}px;  
            ">
 
-              
-              
               {%assign img_height = section.settings.img_height%}
               {%if img_height == 0%}
               	{%assign img_height = 'unset'%}
@@ -37,9 +35,10 @@
               {%endif%}
               
                <div class = "custom-bundler-grid__product_img">
-                {%assign discount = product.compare_at_price | times : 100 | divided_by : product.price %}
-                {%assign discount = 100 | minus: discount%}
-                                 {%if discount < 0%}
+                   {%assign discount = product.price | times : 100 | divided_by : product.compare_at_price %}
+  				   {%assign discount = 100 | minus: discount %}
+                 
+                 {%if discount > 0%}
               	<div class = "saving_wrapper">
                   <div class = "saving" style = "
                    background-color: {{section.settings.saving_background_color}};
@@ -49,7 +48,7 @@
                    color: {{section.settings.saving_font_color}};
 
                   ">                
-                    SAVE {{discount}} %                
+                    SAVE {{discount }} %                
                   </div>
               	</div>
                 {%endif%}

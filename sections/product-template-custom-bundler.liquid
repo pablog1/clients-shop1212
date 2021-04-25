@@ -3,9 +3,11 @@
 
 <div class = "container custom-bundler__pdp">
   
-  {%assign discount = product.compare_at_price | times : 100 | divided_by : product.price %}
-    {%assign discount = 100 | minus: discount%}
+  {%assign discount = product.price | times : 100 | divided_by : product.compare_at_price %}
+  {%assign discount = 100 | minus: discount %}
     {%if discount > 0%}
+  
+  		
     <div class = "container custom-bundler__pdp__saving_wrapper">
       <div class = "saving" style = "
          background-color: {{section.settings.saving_background_color}};
@@ -14,7 +16,8 @@
          font-size: {{section.settings.saving_font_size}}px;
          color: {{section.settings.saving_font_color}};
        ">                
-        SAVE {{discount}} %                
+        SAVE {{discount | append: '%'}}  
+        
       </div>
     </div>
     {%endif%}
@@ -481,4 +484,5 @@
 	]
   }
 {% endschema %}
+
 
