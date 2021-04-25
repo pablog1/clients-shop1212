@@ -56,6 +56,14 @@
         {%if section.settings.add_to_cart_top_show_mobile == false%}
       		@media only screen and (max-width: 700px) {.add-to-cart.atc-top {display: none}}
        	{%endif%}
+      
+        {%if section.settings.add_to_cart_middle_show_desktop == false%}
+      		@media only screen and (min-width: 701px) {.add-to-cart.atc-middle {display: none}}
+       	{%endif%}
+              
+        {%if section.settings.add_to_cart_middle_show_mobile == false%}
+      		@media only screen and (max-width: 700px) {.add-to-cart.atc-middle {display: none}}
+       	{%endif%}      
               
     	{%if section.settings.add_to_cart_bottom_show_desktop == false%}
       		@media only screen and (min-width: 701px) {.add-to-cart.atc-bottom {display: none}}
