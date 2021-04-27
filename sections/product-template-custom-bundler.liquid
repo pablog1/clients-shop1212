@@ -117,7 +117,7 @@
       background-color: {{section.settings.products_background_color}};
       ">
     {%for _product in product.metafields.bundler %}
-        {%render 'product-bundler-pdp-item', product: all_products[_product[1]]%}
+        {%render 'product-bundler-pdp-item', product: all_products[_product[1]], discount: discount%}
     {%endfor%}
   </div>
   
@@ -493,5 +493,4 @@
 	]
   }
 {% endschema %}
-
 

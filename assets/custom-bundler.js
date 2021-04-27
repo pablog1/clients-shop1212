@@ -23,11 +23,11 @@ ready(function() {
   bundlerSelectionsGrid();
     
     container.addEventListener("click", (ev) => {
-      console.log('click');
+      // console.log('click');
       
       if (ev.target.classList.contains("choice")) { // click a variant
         
-        console.log('click variant');
+        // console.log('click variant');
         
         //if choice has "not-available", return
         if (ev.target.classList.contains("not-available")) {
@@ -68,6 +68,7 @@ ready(function() {
         //get from the variantsId list, the element with the same title value
         let variantAttrs = variants.querySelector("[data-title='" + combinedOptionsTitle + "']");
         let variantId = variantAttrs.dataset.value;
+        let variantPrice = variantAttrs.dataset.price;
         let variantImg = variantAttrs.dataset.img;
         
         // console.log(variantId);
@@ -86,7 +87,12 @@ ready(function() {
         
         // set "your selections fields"
         let yourSelections = document.querySelector('.product-id-' + productId);
-        yourSelections.innerHTML =  "<picture class='card__img'><img src='" + variantImg + "'/></picture>";
+        yourSelections.innerHTML =  "<picture class='card__img' data-selected_variant_id='" + variantId + "'><img src='" + variantImg + "'/></picture>";
+        
+        // set "price"        
+        let price = variants.querySelector('.price');
+        price.innerHTML =  "Price: " + variantPrice;
+
         
         bundlerSelectionsGrid();
         checkAvailability(color, variants);
@@ -143,6 +149,35 @@ ready(function() {
       
       
     }); // end click listener
+  
+  
+  
+  if(container){
+   endprice(); 
+  }
+  function endprice() {
+  
+    let endPrice = document.querySelector('.end_price');
+    let str, variantId;
+    
+    
+    // data-selected_variant_id=
+    
+        //for each
+      	let variants = [];
+        variants = container.querySelectorAll(".custom-bundler__pdp__your-selection");
+         [...variants].forEach((ele) => {
+           str = ele.querySelector('.card__img');
+           variantId = str.dataset.selected_variant_id;
+           
+			console.log(str.dataset.selected_variant_id);
+           
+            
+         });
+    
+    
+    endPrice.innerHTML =  "Price: control";
+  }
   
   
   	// Swatches - if it's a PDP, replace colors for images
@@ -236,11 +271,11 @@ ready(function() {
      } // end if
   
   
-  	
+  
   	
   
   function checkAvailability(color, variants) {
-    console.log('control check, color = ' + color);
+    // console.log('control check, color = ' + color);
     //check all sizes from the selected color
     let sizes = [], colors = [], links;
     let compareColor = color + ' /';

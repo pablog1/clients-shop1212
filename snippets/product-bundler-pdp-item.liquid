@@ -32,6 +32,17 @@
     </figure>
 
     <div class = "variants" data-product_id = "{{product.id}}">
+      
+    	{% for option in product.variants %}
+          {%if forloop.index == 1%}
+            {% assign disc_price = option.price | divided_by: 100 | times: discount%}
+            {% assign disc_price = option.price | minus: disc_price %}
+          {%endif%}
+    	{% endfor %}
+    
+     <label class = "price option-label">Price: {{disc_price | money}} </label>
+
+      
       {% for option in product.options %}
       
 
@@ -94,8 +105,11 @@
         {% for option in product.variants %}
         	{%assign swatch_img_arr = option.title | split: '/'%}
         	{%assign swatch_img = swatch_img_arr[0] | strip | downcase | replace: ' ', '-' | append: '.png'%}
-                
-            <div data-value="{{option.id}}" data-title="{{option.title}}" data-img="{{option.image.src | img_url: 'x600'}}" data-swatch_img = "{{swatch_img | asset_url}}" data-quantity="{{option.inventory_quantity}}"> </div>
+        
+            {% assign disc_price = option.price | divided_by: 100 | times: discount%}
+            {% assign disc_price = option.price | minus: disc_price %} 
+
+            <div data-value="{{option.id}}" data-title="{{option.title}}" data-price="{{disc_price | money}} "data-img="{{option.image.src | img_url: 'x600'}}" data-swatch_img = "{{swatch_img | asset_url}}" data-quantity="{{option.inventory_quantity}}"> </div>
           {%if forloop.index == 1%}
               {%assign default_variant_id = option.id %}
           {%endif%}
@@ -110,12 +124,14 @@
     
   <div style = "display:none">
     <div class ="custom-bundler__pdp__your-selection product-id-{{product.id}}">
-      <picture class="card__img">
+      <picture class="card__img" data-selected_variant_id="{{default_variant_id}}">
         <img src="{{ product.featured_image | img_url: 'x465'}}" alt="{{product.title}}" >        
       </picture>  
     </div>
   </div>
 </div>
+
+
 
 
 
