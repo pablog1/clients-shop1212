@@ -41,14 +41,23 @@
           {{product.description}}
         </div>
   	  {%endif%}
+  
+
+    {%for _product in product.metafields.bundler %}
+        {% assign price_min = price_min | plus: all_products[_product[1]].price_min %}
+        {% assign price_max = price_max | plus: all_products[_product[1]].price_max %}
+    {%endfor%}
+    
+    {% assign price_min_discount = price_min | divided_by: 100 | times: discount%}
+    {% assign price_min_discount = price_min | minus: price_min_discount %} 
     
     <div class = "price" style = "
         font-size: {{section.settings.price_font_size}}px;
         font-weight: {{section.settings.price_font_weight}};
         color: {{section.settings.price_font_color}};
-    "> {{product.price | money }}</div>
+    	">{%if price_min != price_max%}from {{price_min_discount | money}}{%else%}{{price_min_discount | money}}{%endif%}
+ 	</div>
     
-   
     
     <style>
       
