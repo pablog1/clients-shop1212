@@ -11,16 +11,24 @@ MAIN SYSTEM
   - Add the items with the metafields *
   - choose the product-template >> product.custom-bundler
   - optional: Choose a product type like: "Custom Bundle Products"
-  - Important: Set the right prices (compared_at and final price)!!
+  - Important: Set the right prices (compared_at and final price)!! >> The price would be only used to know the amount from the discount.
+
 
 2 - Make More Bundle Products
   - You can make so much as you wish, it would be good to use product types to group the products into collections later
 
-3  - Use an special collection and add all products on it
+3  - Use an special collection and add all bundle products on it
     - This collection (Custom Bundle Products) is important to the script, it will be not visible. 
     - All bundle products have to be included. You can use the product type (for example: Custom Bundler Products)
 
-4 - Make real collections
+4 - Use another special collection for the discounts! There not an special name required, currently I made one 
+    with the name "Bundle Prodcuts Discount". I also used a tag "in bundle products" to include all products in this collection.
+    You can use another tag, a product type, but you have to include the products here.
+
+5 - Make a automatic Discount: I added two conditions: minimum two products, and all products should be included in the collection
+    "Bundle Prodcuts"
+
+6 - Make real collections
   - Use the collection-template >> collection.custom-bundler
   - Add products to be schown below the bundle products
   - Add metafields if you need more than only one collection **

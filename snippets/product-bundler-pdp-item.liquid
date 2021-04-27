@@ -109,7 +109,7 @@
             {% assign disc_price = option.price | divided_by: 100 | times: discount%}
             {% assign disc_price = option.price | minus: disc_price %} 
 
-            <div data-value="{{option.id}}" data-title="{{option.title}}" data-price="{{disc_price | money}} "data-img="{{option.image.src | img_url: 'x600'}}" data-swatch_img = "{{swatch_img | asset_url}}" data-quantity="{{option.inventory_quantity}}"> </div>
+            <div data-value="{{option.id}}" data-title="{{option.title}}" data-price="{{disc_price | money}}" data-price_raw="{{disc_price}} "data-img="{{option.image.src | img_url: 'x600'}}" data-swatch_img = "{{swatch_img | asset_url}}" data-quantity="{{option.inventory_quantity}}"> </div>
           {%if forloop.index == 1%}
               {%assign default_variant_id = option.id %}
           {%endif%}
@@ -130,6 +130,7 @@
     </div>
   </div>
 </div>
+
 
 
 

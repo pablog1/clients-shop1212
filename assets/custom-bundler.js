@@ -102,6 +102,9 @@ ready(function() {
         //set variant texts
         variantsTexts(type, variants);
         
+        //refresh end prices
+        endprice(); 
+        
         
         
       } // end if click on variant
@@ -155,14 +158,11 @@ ready(function() {
   if(container){
    endprice(); 
   }
-  function endprice() {
+  function endprice() { // get the current price for each product, make the sum and return a formatted price
   
     let endPrice = document.querySelector('.end_price');
-    let str, variantId;
-    
-    
-    // data-selected_variant_id=
-    
+    let str, variantId, allPrices = [], variantAttrs, onePrice, finalPrice;
+        
         //for each
       	let variants = [];
         variants = container.querySelectorAll(".custom-bundler__pdp__your-selection");
@@ -170,13 +170,19 @@ ready(function() {
            str = ele.querySelector('.card__img');
            variantId = str.dataset.selected_variant_id;
            
-			console.log(str.dataset.selected_variant_id);
+           variantAttrs = document.querySelector("[data-value='" + variantId + "']");
+
+           onePrice = variantAttrs.dataset.price_raw;
            
-            
-         });
+           allPrices.indexOf(parseInt(onePrice)) === -1 && allPrices.push(parseInt(onePrice));
+                
+         }); // end foreach
     
+      finalPrice = allPrices.reduce((a, b) => a + b, 0);
+      finalPrice = finalPrice / 100;
+
     
-    endPrice.innerHTML =  "Price: control";
+	  endPrice.innerHTML =  "Price: $ " + finalPrice.toFixed(2);
   }
   
   

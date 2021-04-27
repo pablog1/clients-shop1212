@@ -1,3 +1,4 @@
+
 /*##################
 # Product Pages ##
 ##################
@@ -217,6 +218,10 @@
       height: 100%;
   }
   
+  .custom-bundler__pdp .end_price {
+      text-align: center;
+  }
+  
   @media only screen and (max-width: 700px) {
     .custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection {
         margin: 2%;
@@ -229,6 +234,8 @@
       /*height: 37vw;*/
       }
   }
+  
+  
   
   
   /*################
@@ -377,11 +384,6 @@
   .custom-bundler-grid__product__customize button a {
        color: grey; 
   }
-  
-  
-  
-  
-  
   
   
   
