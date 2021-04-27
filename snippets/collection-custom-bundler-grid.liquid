@@ -10,12 +10,16 @@
 {{ 'custom-bundler.css' | asset_url | stylesheet_tag }}
     {{ 'custom-bundler.js' | asset_url | script_tag }}
 
+
 	{% assign collection_tag = collection.metafields.bundler.tag%}
     {% assign collection_handle = 'custom-bundle-products' %}
     <div class = "custom-bundler-grid" style = "background-color: {{section.settings.custom_grid_background_color}}">
         {% for product in collections[collection_handle].products %}
-      		{%capture bundle_product%}
       
+       		{%assign price_min = 0%}
+     		{%assign price_max = 0%}
+      
+      		{%capture bundle_product%}
       
               {%assign img_height = section.settings.img_height%}
               {%if img_height == 0%}
@@ -68,7 +72,7 @@
                     font-weight: {{section.settings.price_font_weight}};
                     color: {{section.settings.price_font_color}};
                 ">
-                	{{product.price | money}}
+                	XXX-PRICE
                 </div>
                 
               </div>
@@ -95,6 +99,10 @@
                    	{%if item.available == false%}
                    		{%assign show_product = 'no'%}
                    	{%endif%}
+                   
+                    {%assign price_min = price_min | plus: item.price_min %}
+                    {%assign price_max = price_max | plus: item.price_max %}
+                   
                     	<div class = "custom-bundler-grid__product__what-includes__grid__item">
                             <div class = "custom-bundler-grid__product__what-includes__grid__item__img">
                                 <img src="{{item.featured_image | img_url: '90x90'}}" alt = "{{item.title}}"/>
@@ -149,8 +157,25 @@
       			{%assign show_product = 'no' %}
       		{%endunless%}
       	{%endif%}
+      
+      	{%comment%}get the price, (with or without a range and apply the discount{%endcomment%}
+      
+     
+      
+        {% assign price_min_discount = price_min | divided_by: 100 | times: discount%}
+      	{% assign price_min_discount = price_min | minus: price_min_discount %} 
+      
+      
+      	{% assign end_price = price_min_discount | money %}
+        {%if price_min != price_max%}   	
+    		{% assign end_price = 'from ' | append: end_price %}      
+   	    {%endif%}
+      
+      	{% assign bundle_product = bundle_product | replace: 'XXX-PRICE', end_price%}
 
       	{%unless show_product == 'no'%}{{bundle_product}}{%endunless%}
+      
+
         {% endfor %}
     </div>
   
