@@ -71,6 +71,9 @@ ready(function() {
         let variantId = variantAttrs.dataset.value;
         let variantPrice = variantAttrs.dataset.price;
         let variantImg = variantAttrs.dataset.img;
+        let variantQuantity = variantAttrs.dataset.quantity;
+        let availability = '';
+
         
         // console.log(variantId);
         
@@ -88,7 +91,11 @@ ready(function() {
         
         // set "your selections fields"
         let yourSelections = document.querySelector('.product-id-' + productId);
-        yourSelections.innerHTML =  "<picture class='card__img' data-selected_variant_id='" + variantId + "'><img src='" + variantImg + "'/></picture>";
+        if (variantQuantity == '0') {
+          availability =  '<div class = "not-available">Out of Stock</div>'
+        }    
+
+        yourSelections.innerHTML = "<picture class='card__img' data-selected_variant_id='" + variantId + "'><img src='" + variantImg + "'/>" + availability + "</picture>" ;
         
         // set "price"        
         let price = variants.querySelector('.price');
@@ -105,7 +112,6 @@ ready(function() {
         
         //refresh end prices
         endprice(); 
-        
         
         
       } // end if click on variant

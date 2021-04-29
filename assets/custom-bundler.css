@@ -218,6 +218,13 @@
       height: 100%;
   }
   
+  .custom-bundler__pdp .all-selections .custom-bundler__pdp__your-selection .not-available {
+        text-align: center;
+      margin-top: -37px;
+      font-size: 13px;
+      color: red;
+  }
+  
   .custom-bundler__pdp .end_price {
       text-align: center;
   }
@@ -384,6 +391,7 @@
   .custom-bundler-grid__product__customize button a {
        color: grey; 
   }
+  
   
   
   
