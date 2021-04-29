@@ -18,6 +18,7 @@ function ready(callbackFunc) {
 ready(function() {
   
   let setChoice, size, combinedOptionsTitle;
+  let addToCartCounter = 0;
   let container = document.querySelector(".custom-bundler__pdp");
   
   bundlerSelectionsGrid();
@@ -109,8 +110,10 @@ ready(function() {
         
       } // end if click on variant
       
-       if (ev.target.classList.contains("add-to-cart")) { // click add to cart
+       if (ev.target.classList.contains("add-to-cart") && addToCartCounter == 0) { // click add to cart
          
+         addToCartCounter++;
+         console.log(addToCartCounter);
          // create json         
          let items = [], data = [];
          let variantIds = container.querySelectorAll("[data-variant_id]");
@@ -126,7 +129,7 @@ ready(function() {
          });  // end if.. add to cart   
           
            
-           console.log('res ', items);
+           // console.log('res ', items);
                         
          
          // add to cart
@@ -145,10 +148,7 @@ ready(function() {
           });
          }
          
-         
-         // check minicart behavior...
-                  
-       } // end click add to cart
+                } // end click add to cart
       
       
     }); // end click listener
