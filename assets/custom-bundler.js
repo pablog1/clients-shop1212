@@ -92,7 +92,7 @@ ready(function() {
         // set "your selections fields"
         let yourSelections = document.querySelector('.product-id-' + productId);
         if (variantQuantity == '0') {
-          availability =  '<div class = "not-available">Out of Stock</div>'
+          availability =  '<div class = "your-selection-not-available">Out of Stock</div>'
         }    
 
         yourSelections.innerHTML = "<picture class='card__img' data-selected_variant_id='" + variantId + "'><img src='" + variantImg + "'/>" + availability + "</picture>" ;
@@ -119,7 +119,25 @@ ready(function() {
        if (ev.target.classList.contains("add-to-cart") && addToCartCounter == 0) { // click add to cart
          
          addToCartCounter++;
-         console.log(addToCartCounter);
+         
+         // check if there are unavailable products selected
+         // if something is wrong, show error
+         let str = document.querySelector('.your-selection-not-available');
+         if (str){
+           addToCartCounter = 0;           
+           let text = document.querySelectorAll('button.add-to-cart');
+           [...text].forEach((ele) => {
+             ele.innerHTML = '<span style="color:red; font-size:12px">Some of your selections are out of stock. Please check!</span>';
+           });
+          
+           setTimeout(function(){
+           	[...text].forEach((ele) => {
+           	ele.innerHTML = 'Add Bundle to Cart';    
+            });
+           }, 4000);    
+          return;
+          }
+          
          // create json         
          let items = [], data = [];
          let variantIds = container.querySelectorAll("[data-variant_id]");
