@@ -145,7 +145,7 @@ ready(function() {
    
          
          // create json         
-         let items = [], data = [], variantAttrs, subproductTitle, subproductOptions, propStr = '';
+         let items = [], data = [], dataVariants = [],  variantAttrs, subproductTitle, subproductOptions,subproductId, propStr = '';
          let variantIds = container.querySelectorAll("[data-variant_id]");
          [...variantIds].forEach((ele) => {
            
@@ -155,11 +155,18 @@ ready(function() {
            
            variantAttrs = document.querySelector("[data-value='" + ele.dataset.variant_id + "']");
            subproductOptions = variantAttrs.dataset.title;
-                                
-           propStr = propStr + subproductTitle + '(' + subproductOptions + '), ';
+			
+           // create texts for the properties
+           propStr = propStr + subproductTitle + ' (' + subproductOptions + '), ';
 
-   
-        
+           
+           // create variants to send to the cart           
+           dataVariants = {
+              "id": ele.dataset.variant_id,
+              "quantity": 1
+           };
+           items.push(dataVariants);
+         
           
          });  // end if.. add to cart   
          
@@ -172,11 +179,9 @@ ready(function() {
                "properties": {
                  'Products': propStr
                }
-           	};
+           	};          
+           items.push(data);
          
- 
-           
-           items.push(data)
            addItemToCart(items);
                                             
          
