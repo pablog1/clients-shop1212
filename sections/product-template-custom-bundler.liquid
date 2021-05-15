@@ -1,7 +1,7 @@
 {{ 'custom-bundler.css' | asset_url | stylesheet_tag }}
 {{ 'custom-bundler.js' | asset_url | script_tag }}
 
-<div class = "container custom-bundler__pdp">
+<div class = "container custom-bundler__pdp" data-product_id = "{{product.id}}" data-first_variant_id = "{{product.first_available_variant.id}}">
   
   {%assign discount = product.price | times : 100 | divided_by : product.compare_at_price %}
   {%assign discount = 100 | minus: discount %}
@@ -55,7 +55,7 @@
         font-size: {{section.settings.price_font_size}}px;
         font-weight: {{section.settings.price_font_weight}};
         color: {{section.settings.price_font_color}};
-    	">{%if price_min != price_max%}from {{price_min_discount | money}}{%else%}{{price_min_discount | money}}{%endif%}
+        "><span style = "color:red;text-decoration: line-through;">{{product.compare_at_price | money}}</span> - {{product.price | money}}
  	</div>
     
     
@@ -495,3 +495,4 @@
 	]
   }
 {% endschema %}
+

@@ -72,7 +72,8 @@
                     font-weight: {{section.settings.price_font_weight}};
                     color: {{section.settings.price_font_color}};
                 ">
-                	XXX-PRICE
+                	<span style = "color:red;text-decoration: line-through;">{{product.compare_at_price | money}}</span> - {{product.price | money}}     
+
                 </div>
                 
               </div>
@@ -165,13 +166,6 @@
         {% assign price_min_discount = price_min | divided_by: 100 | times: discount%}
       	{% assign price_min_discount = price_min | minus: price_min_discount %} 
       
-      
-      	{% assign end_price = price_min_discount | money %}
-        {%if price_min != price_max%}   	
-    		{% assign end_price = 'from ' | append: end_price %}      
-   	    {%endif%}
-      
-      	{% assign bundle_product = bundle_product | replace: 'XXX-PRICE', end_price%}
 
       	{%unless show_product == 'no'%}{{bundle_product}}{%endunless%}
       

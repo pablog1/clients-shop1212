@@ -98,8 +98,8 @@ ready(function() {
         yourSelections.innerHTML = "<picture class='card__img' data-selected_variant_id='" + variantId + "'><img src='" + variantImg + "'/>" + availability + "</picture>" ;
         
         // set "price"        
-        let price = variants.querySelector('.price');
-        price.innerHTML =  "Price: " + variantPrice;
+        // let price = variants.querySelector('.price');
+        // price.innerHTML =  "Price: " + variantPrice;
 
         
         bundlerSelectionsGrid();
@@ -111,7 +111,7 @@ ready(function() {
         variantsTexts(type, variants);
         
         //refresh end prices
-        endprice(); 
+        // endprice(); 
         
         
       } // end if click on variant
@@ -137,24 +137,48 @@ ready(function() {
            }, 4000);    
           return;
           }
-          
+         
+         
+          let productId = document.querySelector('.container.custom-bundler__pdp').dataset.product_id;
+          let productFirstVariantId = document.querySelector('.container.custom-bundler__pdp').dataset.first_variant_id;
+
+   
+         
          // create json         
-         let items = [], data = [];
+         let items = [], data = [], variantAttrs, subproductTitle, subproductOptions, propStr = '';
          let variantIds = container.querySelectorAll("[data-variant_id]");
          [...variantIds].forEach((ele) => {
-           data = {
-              "id": ele.dataset.variant_id,
-              "quantity": 1
-           };
+           
+           subproductTitle = document.querySelector("[data-value='" + ele.dataset.variant_id + "']").closest('.all-variants').dataset.product_title;
+           console.log('subproductTitle = ' + subproductTitle);
+           
+           
+           variantAttrs = document.querySelector("[data-value='" + ele.dataset.variant_id + "']");
+           subproductOptions = variantAttrs.dataset.title;
+                                
+           propStr = propStr + subproductTitle + '(' + subproductOptions + '), ';
+
+   
+        
+          
+         });  // end if.. add to cart   
+         
+         
+         propStr = propStr.slice(0, -2);
+         
+            data = {
+              "id": productFirstVariantId,
+              "quantity": 1,
+               "properties": {
+                 'Products': propStr
+               }
+           	};
+         
+ 
            
            items.push(data)
            addItemToCart(items);
-          
-         });  // end if.. add to cart   
-          
-           
-           // console.log('res ', items);
-                        
+                                            
          
          // add to cart
          function addItemToCart(items) {
@@ -167,7 +191,7 @@ ready(function() {
             success: function() { 
                 setTimeout(function() {
                 	window.location = '/cart';
-              	}, 500)
+              	}, 1000)
             }
           });
          }
@@ -180,10 +204,10 @@ ready(function() {
   
   
   if(container){
-   endprice(); 
+   // endprice(); 
   }
   function endprice() { // get the current price for each product, make the sum and return a formatted price
-  
+  /*
     let endPrice = document.querySelector('.end_price');
     let str, variantId, allPrices = [], variantAttrs, onePrice, finalPrice;
         
@@ -207,6 +231,7 @@ ready(function() {
 
     
 	  endPrice.innerHTML =  "Price: $ " + finalPrice.toFixed(2);
+      */
   }
   
   
